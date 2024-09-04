@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="Scribble.db" uuid="a0fecb7d-1354-4b4a-b978-ac97eab232bf">
+    <data-source source="LOCAL" name="Scribble" uuid="df3e18a6-a369-4ef7-a4fc-506f6ae45864">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\desou\OneDrive\Área de Trabalho\Molic-Desinger\src\resources\Scribble.db</jdbc-url>
+      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/src/resources/Scribble</jdbc-url>
       <jdbc-additional-properties>
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />
       </jdbc-additional-properties>
