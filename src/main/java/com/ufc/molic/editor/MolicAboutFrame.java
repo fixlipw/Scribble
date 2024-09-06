@@ -43,43 +43,43 @@ public class MolicAboutFrame extends JDialog {
         // Ponto de Início
         String title1 = "Ponto de Início";
         String imageDescription1 = "<html><div style='width: 150px'>Representa um ponto de entrada para a aplicação. É possível ter mais de um ponto de entrada se a aplicação puder ser iniciada em cenas diferentes.<div></html>";
-        JPanel imagePanel1 = createImagePanel("pontoInicio_sized.png", title1, imageDescription1);
+        JPanel imagePanel1 = createImagePanel("images/molic/pontoInicio_sized.png", title1, imageDescription1);
         contentPanel.add(imagePanel1);
 
         // Ponto de Saída
         String title2 = "Ponto de Saída";
         String imageDescription2 = "<html><div style='width: 150px'>Representa um ponto de saída para a aplicação, indicando onde a conversa termina.<div></html>";
-        JPanel imagePanel2 = createImagePanel("pontoFim_sized.png", title2, imageDescription2);
+        JPanel imagePanel2 = createImagePanel("images/molic/pontoFim_sized.png", title2, imageDescription2);
         contentPanel.add(imagePanel2);
 
         // Acesso Ubíquo
         String title3 = "Acesso Ubíquo";
         String imageDescription3 = "<html><div style='width: 150px'>Representa a troca de tópicos da conversa a qualquer momento.<div></html>";
-        JPanel imagePanel3 = createImagePanel("acessoUbicuo_sized.png", title3, imageDescription3);
+        JPanel imagePanel3 = createImagePanel("images/molic/acessoUbicuo_sized.png", title3, imageDescription3);
         contentPanel.add(imagePanel3);
 
         // Cena
         String title4 = "Cena";
         String imageDescription4 = "<html><div style='width: 150px'>Representa uma conversa por tópicos que o usuário deve ter com o proposto do designer para atingir um objetivo. A cena se estrutura em dois containers: acima temos o Tópico da Conversa (uma frase do ponto de vista do designer sobre o que o usuário é capaz alcançar naquele momento), e abaixo os Diálogos da Conversa (descrevem os diálogos entre o usuário e o sistema devem manter parar atingir o objetivo descrito do tópico). Em Cena, o usuário tem sua vez de decidir como as conversas devem prossegir.<div></html>";
-        JPanel imagePanel4 = createImagePanel("cena_sized.png", title4, imageDescription4);
+        JPanel imagePanel4 = createImagePanel("images/molic/cena_sized.png", title4, imageDescription4);
         contentPanel.add(imagePanel4);
 
         // Cena de Alerta
         String title5 = "Cena de Alerta";
         String imageDescription5 = "<html><div style='width: 150px'>Representa uma situação em que o designer prevê uma causa potencial de quebra de comunicação.<div></html>";
-        JPanel imagePanel5 = createImagePanel("cenaAlerta_sized.png", title5, imageDescription5);
+        JPanel imagePanel5 = createImagePanel("images/molic/cenaAlerta_sized.png", title5, imageDescription5);
         contentPanel.add(imagePanel5);
 
         // Processo
         String title6 = "Processo";
         String imageDescription6 = "<html><div style='width: 150px'>Representa o momento em que o sistema processa uma requisição recebida pelo usuário<div></html>";
-        JPanel imagePanel6 = createImagePanel("processo_sized.png", title6, imageDescription6);
+        JPanel imagePanel6 = createImagePanel("images/molic/processo_sized.png", title6, imageDescription6);
         contentPanel.add(imagePanel6);
 
         // Processo com Progresso
         String title7 = "Processo com Progresso";
         String imageDescription7 = "<html><div style='width: 150px'>Representa um processo do sistema, e também permite que o designer defina uma interrupção ao atingir uma marca condicional<div></html>";
-        JPanel imagePanel7 = createImagePanel("processoComProgresso_sized.png", title7, imageDescription7);
+        JPanel imagePanel7 = createImagePanel("images/molic/processoComProgresso_sized.png", title7, imageDescription7);
         contentPanel.add(imagePanel7);
 
 

@@ -15,13 +15,8 @@ import java.awt.*;
 import java.io.Serial;
 import java.io.Serializable;
 
-/**
- * Border with a drop shadow.
- */
 public class ShadowBorder implements Border, Serializable {
-    /**
-     *
-     */
+
     @Serial
     private static final long serialVersionUID = 6854989457150641240L;
     public static ShadowBorder sharedInstance = new ShadowBorder();
@@ -51,7 +46,6 @@ public class ShadowBorder implements Border, Serializable {
     }
 
     public void paintBorder(Component c, Graphics g, int x, int y, int w, int h) {
-        // choose which colors we want to use
         Color bg = c.getBackground();
 
         if (c.getParent() != null) {
