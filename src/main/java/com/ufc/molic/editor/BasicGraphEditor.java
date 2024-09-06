@@ -96,7 +96,7 @@ public class BasicGraphEditor extends JPanel {
 
         libraryPane = new JTabbedPane();
         goalsPane = new JTabbedPane();
-        notesPane = new JPanel();
+        notesPane = new NotesPanel();
 
         JSplitPane innerPallete = new JSplitPane(JSplitPane.VERTICAL_SPLIT, libraryPane, graphOutline);
         innerPallete.setDividerLocation(350);
@@ -112,11 +112,24 @@ public class BasicGraphEditor extends JPanel {
 
         Rectangle appBounds = SwingUtilities.getRoot(this).getBounds();
 
-        JSplitPane outterMain = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, outerPallete, goalsPane);
+        JSplitPane innerMain = new JSplitPane(JSplitPane.VERTICAL_SPLIT, goalsPane, notesPane);
+        innerPallete.setDividerLocation(appBounds.height / 2);
+        innerPallete.setResizeWeight(1);
+        innerPallete.setDividerSize(6);
+        innerPallete.setBorder(null);
+
+        JSplitPane outterMain = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, outerPallete, innerMain);
         outterMain.setOneTouchExpandable(true);
         outterMain.setDividerLocation(appBounds.width - 270);
         outterMain.setDividerSize(6);
         outterMain.setBorder(null);
+
+        innerMain.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                innerMain.setDividerLocation(appBounds.height / 2);
+            }
+        });
 
         outterMain.addComponentListener(new ComponentAdapter() {
             @Override
