@@ -8,26 +8,23 @@ import java.io.Serial;
 
 public class EditorPopupMenu extends JPopupMenu {
 
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -3132749140550242191L;
 
     public EditorPopupMenu(BasicGraphEditor editor) {
         boolean selected = !editor.getGraphComponent().getGraph().isSelectionEmpty();
 
-        add(editor.bind("Desfazer", new HistoryAction(true), "undo.gif"));
+        add(editor.bind("Desfazer", new HistoryAction(true), "images/undo.gif"));
 
         addSeparator();
 
-        add(editor.bind("Cortar", TransferHandler.getCutAction(), "cut.gif")).setEnabled(selected);
-        add(editor.bind("Copiar", TransferHandler.getCopyAction(), "copy.gif")).setEnabled(selected);
-        add(editor.bind("Colar", TransferHandler.getPasteAction(), "paste.gif"));
+        add(editor.bind("Cortar", TransferHandler.getCutAction(), "images/cut.gif")).setEnabled(selected);
+        add(editor.bind("Copiar", TransferHandler.getCopyAction(), "images/copy.gif")).setEnabled(selected);
+        add(editor.bind("Colar", TransferHandler.getPasteAction(), "images/paste.gif"));
 
         addSeparator();
 
-        add(editor.bind("Deletar", mxGraphActions.getDeleteAction(), "delete.gif")).setEnabled(selected);
+        add(editor.bind("Deletar", mxGraphActions.getDeleteAction(), "images/delete.gif")).setEnabled(selected);
 
         addSeparator();
 

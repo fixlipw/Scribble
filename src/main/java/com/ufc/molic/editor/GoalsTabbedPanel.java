@@ -1,11 +1,15 @@
 package com.ufc.molic.editor;
 
 import com.mxgraph.swing.util.mxGraphTransferable;
+import com.mxgraph.swing.util.mxSwingConstants;
 import com.mxgraph.util.*;
 import com.mxgraph.view.mxGraph;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DragGestureListener;
+import java.awt.dnd.DragSource;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
@@ -115,8 +119,12 @@ public class GoalsTabbedPanel extends JPanel {
 
             }
 
-
         });
+
+        DragGestureListener dragGestureListener = e -> e.startDrag(null, mxSwingConstants.EMPTY_IMAGE, new Point(), t, null);
+
+        DragSource dragSource = new DragSource();
+        dragSource.createDefaultDragGestureRecognizer(goal, DnDConstants.ACTION_COPY, dragGestureListener);
 
         add(goal);
     }

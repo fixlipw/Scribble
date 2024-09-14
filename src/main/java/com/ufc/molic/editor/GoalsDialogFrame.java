@@ -30,7 +30,7 @@ public class GoalsDialogFrame extends JDialog {
         setTitle("Novo Objetivo");
 
         colorChooserPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        colorChooserPanel.setName("Selecione uma Cor"); // NOI18N
+        colorChooserPanel.setName("Selecione uma Cor");
 
         goalColorChooser.setBorder(BorderFactory.createTitledBorder("Selecione uma Cor"));
 

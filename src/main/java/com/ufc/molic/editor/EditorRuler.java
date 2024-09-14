@@ -25,103 +25,47 @@ import java.io.Serial;
 import java.text.NumberFormat;
 import java.util.TooManyListenersException;
 
-/**
- * Component that displays a ruler for a JGraph component.
- */
 public class EditorRuler extends JComponent implements MouseMotionListener, DropTargetListener {
 
-    /**
-     * Holds the shared number formatter.
-     *
-     * @see NumberFormat#getInstance()
-     */
     public static final NumberFormat numberFormat = NumberFormat.getInstance();
-    /**
-     *
-     */
+
     @Serial
     private static final long serialVersionUID = -6310912355878668096L;
-    /**
-     * Defines the constants for horizontal and vertical orientation.
-     */
+
     public static int ORIENTATION_HORIZONTAL = 0, ORIENTATION_VERTICAL = 1;
-    /**
-     * Internal constant used to describe the screen resolution (DPI). Default
-     * is 72.
-     */
+
     protected static int INCH = 72;
-    /**
-     * Internal constant used to describe the screen resolution (DPI). Default
-     * is 72.
-     */
+
     protected static int DEFAULT_PAGESCALE = 1;
-    /**
-     * Internal constant used to describe the screen resolution (DPI). Default
-     * is 72.
-     */
+
     protected static boolean DEFAULT_ISMETRIC = true;
 
-    /*
-      Configuers the number format.
-     */
     static {
         numberFormat.setMaximumFractionDigits(2);
     }
 
-    /**
-     * Defines the inactive background border. Default is a not-so-dark gray.
-     */
     protected Color inactiveBackground = new Color(170, 170, 170);
 
-    /**
-     * Specifies the orientation.
-     */
     protected int orientation;
 
-    /**
-     * Specified that start and length of the active region, ie the region to
-     * paint with the background border. This is used for example to indicate
-     * the printable region of a graph.
-     */
     protected int activeoffset, activelength;
 
     protected double scale = DEFAULT_PAGESCALE;
 
     protected boolean metric = DEFAULT_ISMETRIC;
 
-    /**
-     *
-     */
     protected Font labelFont = new Font("Tahoma", Font.PLAIN, 9);
 
-    /**
-     * Specifies height or width of the ruler. Default is 15 pixels.
-     */
     protected int rulerSize = 16;
 
-    /**
-     * Specifies the minimum distance between two major ticks. Default is 30.
-     */
     protected int tickDistance = 30;
 
-    /**
-     * Reference to the attached graph.
-     */
     protected mxGraphComponent graphComponent;
 
-    /**
-     * Holds the current and first mouse point.
-     */
     protected Point mouse = new Point();
 
-    /**
-     * Parameters to control the display.
-     */
     protected double increment, units;
 
-    /**
-     *
-     */
     protected transient mxIEventListener repaintHandler = (source, evt) -> repaint();
 
     public EditorRuler(mxGraphComponent graphComponent, int orientation) {
@@ -141,89 +85,47 @@ public class EditorRuler extends JComponent implements MouseMotionListener, Drop
             if (dropTarget != null) {
                 dropTarget.addDropTargetListener(this);
             }
-        } catch (TooManyListenersException tmle) {
-            // should not happen... swing drop target is multicast
+        } catch (TooManyListenersException ignored) {
+
         }
 
         setBorder(BorderFactory.createLineBorder(Color.black));
     }
 
-    /**
-     * Sets the start of the active region in pixels.
-     *
-     * @param offset The start of the active region.
-     */
     public void setActiveOffset(int offset) {
         activeoffset = (int) (offset * scale);
     }
 
-    /**
-     * Sets the length of the active region in pixels.
-     *
-     * @param length The length of the active region.
-     */
     public void setActiveLength(int length) {
         activelength = (int) (length * scale);
     }
 
-    /**
-     * Returns true if the ruler uses metric units.
-     *
-     * @return Returns if the ruler is metric.
-     */
     public boolean isMetric() {
         return metric;
     }
 
-    /**
-     * Sets if the ruler uses metric units.
-     *
-     * @param isMetric Whether to use metric units.
-     */
     public void setMetric(boolean isMetric) {
         this.metric = isMetric;
         updateIncrementAndUnits();
         repaint();
     }
 
-    /**
-     * Returns the ruler's horizontal or vertical size.
-     *
-     * @return Returns the rulerSize.
-     */
     public int getRulerSize() {
         return rulerSize;
     }
 
-    /**
-     * Sets the ruler's horizontal or vertical size.
-     *
-     * @param rulerSize The rulerSize to set.
-     */
     public void setRulerSize(int rulerSize) {
         this.rulerSize = rulerSize;
     }
 
-    /**
-     *
-     */
     public int getTickDistance() {
         return tickDistance;
     }
 
-    /**
-     *
-     */
     public void setTickDistance(int tickDistance) {
         this.tickDistance = tickDistance;
     }
 
-    /**
-     * Returns the preferred size by replacing the respective component of the
-     * graph's preferred size with {@link #rulerSize}.
-     *
-     * @return Returns the preferred size for the ruler.
-     */
     public Dimension getPreferredSize() {
         Dimension dim = graphComponent.getGraphControl().getPreferredSize();
 
@@ -236,63 +138,26 @@ public class EditorRuler extends JComponent implements MouseMotionListener, Drop
         return dim;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see java.awt.dnd.DropTargetListener#dragEnter(java.awt.dnd.DropTargetDragEvent)
-     */
-    public void dragEnter(DropTargetDragEvent arg0) {
-        // empty
-    }
+    public void dragEnter(DropTargetDragEvent arg0) {}
 
-    /*
-     * (non-Javadoc)
-     * @see java.awt.dnd.DropTargetListener#dragExit(java.awt.dnd.DropTargetEvent)
-     */
-    public void dragExit(DropTargetEvent arg0) {
-        // empty
-    }
+    public void dragExit(DropTargetEvent arg0) {}
 
-    /*
-     * (non-Javadoc)
-     * @see java.awt.dnd.DropTargetListener#dragOver(java.awt.dnd.DropTargetDragEvent)
-     */
     public void dragOver(final DropTargetDragEvent arg0) {
         updateMousePosition(arg0.getLocation());
     }
 
-    /*
-     * (non-Javadoc)
-     * @see java.awt.dnd.DropTargetListener#drop(java.awt.dnd.DropTargetDropEvent)
-     */
-    public void drop(DropTargetDropEvent arg0) {
-        // empty
-    }
+    public void drop(DropTargetDropEvent arg0) {}
 
-    /*
-     * (non-Javadoc)
-     * @see java.awt.dnd.DropTargetListener#dropActionChanged(java.awt.dnd.DropTargetDragEvent)
-     */
-    public void dropActionChanged(DropTargetDragEvent arg0) {
-        // empty
-    }
+    public void dropActionChanged(DropTargetDragEvent arg0) {}
 
-    /*
-     * (non-Javadoc)
-     */
     public void mouseMoved(MouseEvent e) {
         updateMousePosition(e.getPoint());
     }
 
-    /*
-     * (non-Javadoc)
-     */
     public void mouseDragged(MouseEvent e) {
         updateMousePosition(e.getPoint());
     }
 
-    /**
-     * Repaints the mouse position.
-     */
     protected void updateMousePosition(Point pt) {
         Point old = mouse;
         mouse = pt;
@@ -300,10 +165,6 @@ public class EditorRuler extends JComponent implements MouseMotionListener, Drop
         repaint(mouse.x, mouse.y);
     }
 
-    /**
-     * Updates the local variables used for painting based on the current scale
-     * and unit system.
-     */
     protected void updateIncrementAndUnits() {
         double graphScale = graphComponent.getGraph().getView().getScale();
 
@@ -318,13 +179,6 @@ public class EditorRuler extends JComponent implements MouseMotionListener, Drop
         }
     }
 
-    /**
-     * Repaints the ruler between the specified 0 and x or y depending on the
-     * orientation.
-     *
-     * @param x The endpoint for repainting a horizontal ruler.
-     * @param y The endpoint for repainting a vertical ruler.
-     */
     public void repaint(int x, int y) {
         if (orientation == ORIENTATION_VERTICAL) {
             repaint(0, y, rulerSize, 1);
@@ -333,17 +187,11 @@ public class EditorRuler extends JComponent implements MouseMotionListener, Drop
         }
     }
 
-    /**
-     * Paints the ruler.
-     *
-     * @param g The graphics to paint the ruler to.
-     */
     public void paintComponent(Graphics g) {
         mxGraph graph = graphComponent.getGraph();
         Rectangle clip = g.getClipBounds();
         updateIncrementAndUnits();
 
-        // Fills clipping area with background.
         if (activelength > 0 && inactiveBackground != null) {
             g.setColor(inactiveBackground);
         } else {
@@ -352,7 +200,6 @@ public class EditorRuler extends JComponent implements MouseMotionListener, Drop
 
         g.fillRect(clip.x, clip.y, clip.width, clip.height);
 
-        // Draws the active region.
         g.setColor(getBackground());
         Point2D p = new Point2D.Double(activeoffset, activelength);
 
@@ -367,13 +214,11 @@ public class EditorRuler extends JComponent implements MouseMotionListener, Drop
         double right = left + clip.getWidth();
         double bottom = top + clip.getHeight();
 
-        // Fetches some global display state information
         mxPoint trans = graph.getView().getTranslate();
         double scale = graph.getView().getScale();
         double tx = trans.getX() * scale;
         double ty = trans.getY() * scale;
 
-        // Sets the distance of the grid lines in pixels
         double stepping = increment;
 
         if (stepping < tickDistance) {
@@ -381,8 +226,6 @@ public class EditorRuler extends JComponent implements MouseMotionListener, Drop
             stepping = count * stepping;
         }
 
-        // Creates a set of strokes with individual dash offsets
-        // for each direction
         ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         g.setFont(labelFont);
         g.setColor(Color.black);
@@ -390,16 +233,12 @@ public class EditorRuler extends JComponent implements MouseMotionListener, Drop
         int smallTick = rulerSize - rulerSize / 3;
         int middleTick = rulerSize / 2;
 
-        // TODO: Merge into a single drawing loop for both orientations
         if (orientation == ORIENTATION_HORIZONTAL) {
             double xs = Math.floor((left - tx) / stepping) * stepping + tx;
             double xe = Math.ceil(right / stepping) * stepping;
             xe += (int) Math.ceil(stepping);
 
             for (double x = xs; x <= xe; x += stepping) {
-                // FIXME: Workaround for rounding errors when adding stepping to
-                // xs or ys multiple times (leads to double grid lines when zoom
-                // is set to eg. 121%)
                 double xx = Math.round((x - tx) / stepping) * stepping + tx;
 
                 int ix = (int) Math.round(xx);
@@ -423,9 +262,6 @@ public class EditorRuler extends JComponent implements MouseMotionListener, Drop
             ye += (int) Math.ceil(stepping);
 
             for (double y = ys; y <= ye; y += stepping) {
-                // FIXME: Workaround for rounding errors when adding stepping to
-                // xs or ys multiple times (leads to double grid lines when zoom
-                // is set to eg. 121%)
                 y = Math.round((y - ty) / stepping) * stepping + ty;
 
                 int iy = (int) Math.round(y);
@@ -433,7 +269,6 @@ public class EditorRuler extends JComponent implements MouseMotionListener, Drop
 
                 String text = format((y - ty) / increment);
 
-                // Rotates the labels in the vertical ruler
                 AffineTransform at = ((Graphics2D) g).getTransform();
                 ((Graphics2D) g).rotate(-Math.PI / 2, 0, iy);
                 g.drawString(text, 1, iy + labelFont.getSize());
@@ -450,7 +285,6 @@ public class EditorRuler extends JComponent implements MouseMotionListener, Drop
             }
         }
 
-        // Draw Mouseposition
         g.setColor(Color.green);
 
         if (orientation == ORIENTATION_HORIZONTAL) {
@@ -460,9 +294,6 @@ public class EditorRuler extends JComponent implements MouseMotionListener, Drop
         }
     }
 
-    /**
-     * Fixes the formatting of -0.
-     */
     private String format(double value) {
         String text = numberFormat.format(value);
 

@@ -8,6 +8,7 @@ import com.mxgraph.view.mxGraph;
 import com.ufc.molic.editor.EditorActions.*;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serial;
@@ -15,9 +16,6 @@ import java.util.Arrays;
 
 public class EditorMenuBar extends JMenuBar {
 
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 4060203894740766714L;
 
@@ -30,19 +28,19 @@ public class EditorMenuBar extends JMenuBar {
 
         menu = add(new JMenu("Arquivo"));
 
-        menu.add(editor.bind("Novo", new NewAction(), "new.gif"));
-        menu.add(editor.bind("Abrir Arquivo", new OpenAction(), "open.gif"));
-        menu.add(editor.bind("Importar Stencil", new ImportAction(), "open.gif"));
+        menu.add(editor.bind("Novo", new NewAction(), "images/new.gif"));
+        menu.add(editor.bind("Abrir Arquivo", new OpenAction(), "images/open.gif"));
+        menu.add(editor.bind("Importar Stencil", new ImportAction(), "images/open.gif"));
 
         menu.addSeparator();
 
-        menu.add(editor.bind("Salvar", new SaveAction(false), "save.gif"));
-        menu.add(editor.bind("Salvar Como", new SaveAction(true), "saveas.gif"));
+        menu.add(editor.bind("Salvar", new SaveAction(false), "images/save.gif"));
+        menu.add(editor.bind("Salvar Como", new SaveAction(true), "images/saveas.gif"));
 
         menu.addSeparator();
 
-        menu.add(editor.bind("Configuração de Página", new PageSetupAction(), "pagesetup.gif"));
-        menu.add(editor.bind("Imprimir", new PrintAction(), "print.gif"));
+        menu.add(editor.bind("Configuração de Página", new PageSetupAction(), "images/pagesetup.gif"));
+        menu.add(editor.bind("Imprimir", new PrintAction(), "images/print.gif"));
 
         menu.addSeparator();
 
@@ -50,18 +48,18 @@ public class EditorMenuBar extends JMenuBar {
 
         menu = add(new JMenu("Editar"));
 
-        menu.add(editor.bind("Desfazer", new HistoryAction(true), "undo.gif"));
-        menu.add(editor.bind("Refazer", new HistoryAction(false), "redo.gif"));
+        menu.add(editor.bind("Desfazer", new HistoryAction(true), "images/undo.gif"));
+        menu.add(editor.bind("Refazer", new HistoryAction(false), "images/redo.gif"));
 
         menu.addSeparator();
 
-        menu.add(editor.bind("Cortar", TransferHandler.getCutAction(), "cut.gif"));
-        menu.add(editor.bind("Copiar", TransferHandler.getCopyAction(), "copy.gif"));
-        menu.add(editor.bind("Colar", TransferHandler.getPasteAction(), "paste.gif"));
+        menu.add(editor.bind("Cortar", TransferHandler.getCutAction(), "images/cut.gif"));
+        menu.add(editor.bind("Copiar", TransferHandler.getCopyAction(), "images/copy.gif"));
+        menu.add(editor.bind("Colar", TransferHandler.getPasteAction(), "images/paste.gif"));
 
         menu.addSeparator();
 
-        menu.add(editor.bind("Deletar", mxGraphActions.getDeleteAction(), "delete.gif"));
+        menu.add(editor.bind("Deletar", mxGraphActions.getDeleteAction(), "images/delete.gif"));
 
         menu.addSeparator();
 
@@ -75,16 +73,11 @@ public class EditorMenuBar extends JMenuBar {
 
         menu = add(new JMenu("Visualizar"));
 
-        JMenuItem item = menu.add(new TogglePropertyItem(graphComponent, "Layout da Página", "Visibilidade da Página", true, new ActionListener() {
-            /**
-             *
-             */
-            public void actionPerformed(ActionEvent e) {
-                if (graphComponent.isPageVisible() && graphComponent.isCenterPage()) {
-                    graphComponent.zoomAndCenter();
-                } else {
-                    graphComponent.getGraphControl().updatePreferredSize();
-                }
+        JMenuItem item = menu.add(new TogglePropertyItem(graphComponent, "Layout da Página", "Visibilidade da Página", true, e -> {
+            if (graphComponent.isPageVisible() && graphComponent.isCenterPage()) {
+                graphComponent.zoomAndCenter();
+            } else {
+                graphComponent.getGraphControl().updatePreferredSize();
             }
         }));
 
@@ -93,13 +86,11 @@ public class EditorMenuBar extends JMenuBar {
                 final mxGraphComponent graphComponent1 = editor.getGraphComponent();
 
                 if (toggleItem.isSelected()) {
-                    // Scrolls the view to the center
                     SwingUtilities.invokeLater(() -> {
                         graphComponent1.scrollToCenter(true);
                         graphComponent1.scrollToCenter(false);
                     });
                 } else {
-                    // Resets the translation of the view
                     mxPoint tr = graphComponent1.getGraph().getView().getTranslate();
 
                     if (tr.getX() != 0 || tr.getY() != 0) {
@@ -295,41 +286,44 @@ public class EditorMenuBar extends JMenuBar {
             final String clazz = laf.getClassName();
 
             menu.add(new AbstractAction(laf.getName()) {
-                /**
-                 *
-                 */
+
                 @Serial
                 private static final long serialVersionUID = 7588919504149148501L;
 
                 public void actionPerformed(ActionEvent e) {
                     editor.setLookAndFeel(clazz);
+
+                    Color blackBackground = new Color(0,0,0,255);
+                    Color lightBackground = new Color(144,153,174,255);
+
+                    switch (clazz) {
+                        case "com.formdev.flatlaf.themes.FlatMacDarkLaf"->
+                                editor.graphComponent.setPageBackgroundColor(blackBackground);
+                        case "com.formdev.flatlaf.themes.FlatMacLightLaf" ->
+                                editor.graphComponent.setPageBackgroundColor(lightBackground);
+                    }
                 }
             });
         }
 
-        // Creates the help menu
         menu = add(new JMenu("Ajuda"));
 
         item = menu.add(new JMenuItem("Sobre MoLIC"));
         item.addActionListener(e -> editor.molic());
     }
 
-    /**
-     * Adds menu items to the given shape menu. This is factored out because
-     * the shape menu appears in the menubar and also in the popupmenu.
-     */
     public static void populateShapeMenu(JMenu menu, BasicGraphEditor editor) {
-        menu.add(editor.bind("Origem", mxGraphActions.getHomeAction(), "house.gif"));
+        menu.add(editor.bind("Origem", mxGraphActions.getHomeAction(), "images/house.gif"));
 
         menu.addSeparator();
 
-        menu.add(editor.bind("Sair do Grupo", mxGraphActions.getExitGroupAction(), "up.gif"));
-        menu.add(editor.bind("Entrar no Grupo", mxGraphActions.getEnterGroupAction(), "down.gif"));
+        menu.add(editor.bind("Sair do Grupo", mxGraphActions.getExitGroupAction(), "images/up.gif"));
+        menu.add(editor.bind("Entrar no Grupo", mxGraphActions.getEnterGroupAction(), "images/down.gif"));
 
         menu.addSeparator();
 
-        menu.add(editor.bind("Agrupar", mxGraphActions.getGroupAction(), "group.gif"));
-        menu.add(editor.bind("Desagrupar", mxGraphActions.getUngroupAction(), "ungroup.gif"));
+        menu.add(editor.bind("Agrupar", mxGraphActions.getGroupAction(), "images/group.gif"));
+        menu.add(editor.bind("Desagrupar", mxGraphActions.getUngroupAction(), "images/ungroup.gif"));
 
         menu.addSeparator();
 
@@ -339,27 +333,27 @@ public class EditorMenuBar extends JMenuBar {
 
         menu.addSeparator();
 
-        menu.add(editor.bind("Esconder", mxGraphActions.getCollapseAction(), "collapse.gif"));
-        menu.add(editor.bind("Mostrar", mxGraphActions.getExpandAction(), "expand.gif"));
+        menu.add(editor.bind("Esconder", mxGraphActions.getCollapseAction(), "images/collapse.gif"));
+        menu.add(editor.bind("Mostrar", mxGraphActions.getExpandAction(), "images/expand.gif"));
 
         menu.addSeparator();
 
-        menu.add(editor.bind("Para Trás", mxGraphActions.getToBackAction(), "toback.gif"));
-        menu.add(editor.bind("Para Frente", mxGraphActions.getToFrontAction(), "tofront.gif"));
+        menu.add(editor.bind("Para Trás", mxGraphActions.getToBackAction(), "images/toback.gif"));
+        menu.add(editor.bind("Para Frente", mxGraphActions.getToFrontAction(), "images/tofront.gif"));
 
         menu.addSeparator();
 
         JMenu submenu = (JMenu) menu.add(new JMenu("Alinhar"));
 
-        submenu.add(editor.bind("Esquerda", new AlignCellsAction(mxConstants.ALIGN_LEFT), "alignleft.gif"));
-        submenu.add(editor.bind("Centro", new AlignCellsAction(mxConstants.ALIGN_CENTER), "aligncenter.gif"));
-        submenu.add(editor.bind("Direita", new AlignCellsAction(mxConstants.ALIGN_RIGHT), "alignright.gif"));
+        submenu.add(editor.bind("Esquerda", new AlignCellsAction(mxConstants.ALIGN_LEFT), "images/alignleft.gif"));
+        submenu.add(editor.bind("Centro", new AlignCellsAction(mxConstants.ALIGN_CENTER), "images/aligncenter.gif"));
+        submenu.add(editor.bind("Direita", new AlignCellsAction(mxConstants.ALIGN_RIGHT), "images/alignright.gif"));
 
         submenu.addSeparator();
 
-        submenu.add(editor.bind("Topo", new AlignCellsAction(mxConstants.ALIGN_TOP), "aligntop.gif"));
-        submenu.add(editor.bind("Meio", new AlignCellsAction(mxConstants.ALIGN_MIDDLE), "alignmiddle.gif"));
-        submenu.add(editor.bind("Margem", new AlignCellsAction(mxConstants.ALIGN_BOTTOM), "alignbottom.gif"));
+        submenu.add(editor.bind("Topo", new AlignCellsAction(mxConstants.ALIGN_TOP), "images/aligntop.gif"));
+        submenu.add(editor.bind("Meio", new AlignCellsAction(mxConstants.ALIGN_MIDDLE), "images/alignmiddle.gif"));
+        submenu.add(editor.bind("Margem", new AlignCellsAction(mxConstants.ALIGN_BOTTOM), "images/alignbottom.gif"));
 
         menu.addSeparator();
 
@@ -367,14 +361,10 @@ public class EditorMenuBar extends JMenuBar {
 
     }
 
-    /**
-     * Adds menu items to the given format menu. This is factored out because
-     * the format menu appears in the menubar and also in the popupmenu.
-     */
     public static void populateFormatMenu(JMenu menu, BasicGraphEditor editor) {
         JMenu submenu = (JMenu) menu.add(new JMenu("Fundo"));
 
-        submenu.add(editor.bind("Cor de Preenchimento", new ColorAction("Fillcolor", mxConstants.STYLE_FILLCOLOR), "fillcolor.gif"));
+        submenu.add(editor.bind("Cor de Preenchimento", new ColorAction("Fillcolor", mxConstants.STYLE_FILLCOLOR), "images/fillcolor.gif"));
         submenu.add(editor.bind("Gradiente", new ColorAction("Gradient", mxConstants.STYLE_GRADIENTCOLOR)));
 
         submenu.addSeparator();
@@ -388,7 +378,7 @@ public class EditorMenuBar extends JMenuBar {
 
         submenu = (JMenu) menu.add(new JMenu("Rótulo"));
 
-        submenu.add(editor.bind("Cor da Fonte", new ColorAction("Fontcolor", mxConstants.STYLE_FONTCOLOR), "fontcolor.gif"));
+        submenu.add(editor.bind("Cor da Fonte", new ColorAction("Fontcolor", mxConstants.STYLE_FONTCOLOR), "images/fontcolor.gif"));
 
         submenu.addSeparator();
 
@@ -428,7 +418,7 @@ public class EditorMenuBar extends JMenuBar {
 
         submenu = (JMenu) menu.add(new JMenu("Linha"));
 
-        submenu.add(editor.bind("Cor da Linha", new ColorAction("Cor da Linha", mxConstants.STYLE_STROKECOLOR), "linecolor.gif"));
+        submenu.add(editor.bind("Cor da Linha", new ColorAction("Cor da Linha", mxConstants.STYLE_STROKECOLOR), "images/linecolor.gif"));
 
         submenu.addSeparator();
 
@@ -441,15 +431,15 @@ public class EditorMenuBar extends JMenuBar {
 
         submenu = (JMenu) menu.add(new JMenu("Conector"));
 
-        submenu.add(editor.bind("Reto", new SetStyleAction("straight"), "straight.gif"));
+        submenu.add(editor.bind("Reto", new SetStyleAction("straight"), "images/straight.gif"));
 
-        submenu.add(editor.bind("Horizontal", new SetStyleAction(""), "connect.gif"));
-        submenu.add(editor.bind("Vertical", new SetStyleAction("vertical"), "vertical.gif"));
+        submenu.add(editor.bind("Horizontal", new SetStyleAction(""), "images/connect.gif"));
+        submenu.add(editor.bind("Vertical", new SetStyleAction("vertical"), "images/vertical.gif"));
 
         submenu.addSeparator();
 
-        submenu.add(editor.bind("Relação de Entidades", new SetStyleAction("edgeStyle=mxEdgeStyle.EntityRelation"), "entity.gif"));
-        submenu.add(editor.bind("Seta", new SetStyleAction("arrow"), "arrow.gif"));
+        submenu.add(editor.bind("Relação de Entidades", new SetStyleAction("edgeStyle=mxEdgeStyle.EntityRelation"), "images/entity.gif"));
+        submenu.add(editor.bind("Seta", new SetStyleAction("arrow"), "images/arrow.gif"));
 
         submenu.addSeparator();
 
@@ -459,14 +449,14 @@ public class EditorMenuBar extends JMenuBar {
 
         submenu = (JMenu) menu.add(new JMenu("Início de Linha"));
 
-        submenu.add(editor.bind("Aberto", new KeyValueAction(mxConstants.STYLE_STARTARROW, mxConstants.ARROW_OPEN), "open_start.gif"));
-        submenu.add(editor.bind("Clássico", new KeyValueAction(mxConstants.STYLE_STARTARROW, mxConstants.ARROW_CLASSIC), "classic_start.gif"));
-        submenu.add(editor.bind("Bloco", new KeyValueAction(mxConstants.STYLE_STARTARROW, mxConstants.ARROW_BLOCK), "block_start.gif"));
+        submenu.add(editor.bind("Aberto", new KeyValueAction(mxConstants.STYLE_STARTARROW, mxConstants.ARROW_OPEN), "images/open_start.gif"));
+        submenu.add(editor.bind("Clássico", new KeyValueAction(mxConstants.STYLE_STARTARROW, mxConstants.ARROW_CLASSIC), "images/classic_start.gif"));
+        submenu.add(editor.bind("Bloco", new KeyValueAction(mxConstants.STYLE_STARTARROW, mxConstants.ARROW_BLOCK), "images/block_start.gif"));
 
         submenu.addSeparator();
 
-        submenu.add(editor.bind("Diamante", new KeyValueAction(mxConstants.STYLE_STARTARROW, mxConstants.ARROW_DIAMOND), "diamond_start.gif"));
-        submenu.add(editor.bind("Oval", new KeyValueAction(mxConstants.STYLE_STARTARROW, mxConstants.ARROW_OVAL), "oval_start.gif"));
+        submenu.add(editor.bind("Diamante", new KeyValueAction(mxConstants.STYLE_STARTARROW, mxConstants.ARROW_DIAMOND), "images/diamond_start.gif"));
+        submenu.add(editor.bind("Oval", new KeyValueAction(mxConstants.STYLE_STARTARROW, mxConstants.ARROW_OVAL), "images/oval_start.gif"));
 
         submenu.addSeparator();
 
@@ -475,14 +465,14 @@ public class EditorMenuBar extends JMenuBar {
 
         submenu = (JMenu) menu.add(new JMenu("Fim de Linha"));
 
-        submenu.add(editor.bind("Aberto", new KeyValueAction(mxConstants.STYLE_ENDARROW, mxConstants.ARROW_OPEN), "open_end.gif"));
-        submenu.add(editor.bind("Clássico", new KeyValueAction(mxConstants.STYLE_ENDARROW, mxConstants.ARROW_CLASSIC), "classic_end.gif"));
-        submenu.add(editor.bind("Bloco", new KeyValueAction(mxConstants.STYLE_ENDARROW, mxConstants.ARROW_BLOCK), "block_end.gif"));
+        submenu.add(editor.bind("Aberto", new KeyValueAction(mxConstants.STYLE_ENDARROW, mxConstants.ARROW_OPEN), "images/open_end.gif"));
+        submenu.add(editor.bind("Clássico", new KeyValueAction(mxConstants.STYLE_ENDARROW, mxConstants.ARROW_CLASSIC), "images/classic_end.gif"));
+        submenu.add(editor.bind("Bloco", new KeyValueAction(mxConstants.STYLE_ENDARROW, mxConstants.ARROW_BLOCK), "images/block_end.gif"));
 
         submenu.addSeparator();
 
-        submenu.add(editor.bind("Diamante", new KeyValueAction(mxConstants.STYLE_ENDARROW, mxConstants.ARROW_DIAMOND), "diamond_end.gif"));
-        submenu.add(editor.bind("Oval", new KeyValueAction(mxConstants.STYLE_ENDARROW, mxConstants.ARROW_OVAL), "oval_end.gif"));
+        submenu.add(editor.bind("Diamante", new KeyValueAction(mxConstants.STYLE_ENDARROW, mxConstants.ARROW_DIAMOND), "images/diamond_end.gif"));
+        submenu.add(editor.bind("Oval", new KeyValueAction(mxConstants.STYLE_ENDARROW, mxConstants.ARROW_OVAL), "images/oval_end.gif"));
 
         submenu.addSeparator();
 
@@ -493,15 +483,15 @@ public class EditorMenuBar extends JMenuBar {
 
         submenu = (JMenu) menu.add(new JMenu("Alinhamento"));
 
-        submenu.add(editor.bind("Esquerda", new KeyValueAction(mxConstants.STYLE_ALIGN, mxConstants.ALIGN_LEFT), "left.gif"));
-        submenu.add(editor.bind("Centro", new KeyValueAction(mxConstants.STYLE_ALIGN, mxConstants.ALIGN_CENTER), "center.gif"));
-        submenu.add(editor.bind("Direita", new KeyValueAction(mxConstants.STYLE_ALIGN, mxConstants.ALIGN_RIGHT), "right.gif"));
+        submenu.add(editor.bind("Esquerda", new KeyValueAction(mxConstants.STYLE_ALIGN, mxConstants.ALIGN_LEFT), "images/left.gif"));
+        submenu.add(editor.bind("Centro", new KeyValueAction(mxConstants.STYLE_ALIGN, mxConstants.ALIGN_CENTER), "images/center.gif"));
+        submenu.add(editor.bind("Direita", new KeyValueAction(mxConstants.STYLE_ALIGN, mxConstants.ALIGN_RIGHT), "images/right.gif"));
 
         submenu.addSeparator();
 
-        submenu.add(editor.bind("Topo", new KeyValueAction(mxConstants.STYLE_VERTICAL_ALIGN, mxConstants.ALIGN_TOP), "top.gif"));
-        submenu.add(editor.bind("Meio", new KeyValueAction(mxConstants.STYLE_VERTICAL_ALIGN, mxConstants.ALIGN_MIDDLE), "middle.gif"));
-        submenu.add(editor.bind("Margem", new KeyValueAction(mxConstants.STYLE_VERTICAL_ALIGN, mxConstants.ALIGN_BOTTOM), "bottom.gif"));
+        submenu.add(editor.bind("Topo", new KeyValueAction(mxConstants.STYLE_VERTICAL_ALIGN, mxConstants.ALIGN_TOP), "images/top.gif"));
+        submenu.add(editor.bind("Meio", new KeyValueAction(mxConstants.STYLE_VERTICAL_ALIGN, mxConstants.ALIGN_MIDDLE), "images/middle.gif"));
+        submenu.add(editor.bind("Margem", new KeyValueAction(mxConstants.STYLE_VERTICAL_ALIGN, mxConstants.ALIGN_BOTTOM), "images/bottom.gif"));
 
         submenu = (JMenu) menu.add(new JMenu("Espaçamento"));
 

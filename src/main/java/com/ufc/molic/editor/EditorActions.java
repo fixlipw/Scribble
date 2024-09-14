@@ -54,9 +54,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 
-/**
- *
- */
 public class EditorActions {
     public static BasicGraphEditor getEditor(ActionEvent e) {
         if (e.getSource() instanceof Component component) {
@@ -156,9 +153,6 @@ public class EditorActions {
             this.stylesheet = stylesheet;
         }
 
-        /**
-         *
-         */
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() instanceof mxGraphComponent graphComponent) {
                 mxGraph graph = graphComponent.getGraph();
@@ -221,21 +215,13 @@ public class EditorActions {
     }
 
     public static class ScaleAction extends AbstractAction {
-        /**
-         *
-         */
+
         protected double scale;
 
-        /**
-         *
-         */
         public ScaleAction(double scale) {
             this.scale = scale;
         }
 
-        /**
-         *
-         */
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() instanceof mxGraphComponent graphComponent) {
                 double scale = this.scale;
@@ -271,9 +257,7 @@ public class EditorActions {
     }
 
     public static class PrintAction extends AbstractAction {
-        /**
-         *
-         */
+
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() instanceof mxGraphComponent graphComponent) {
                 PrinterJob pj = PrinterJob.getPrinterJob();
@@ -321,40 +305,26 @@ public class EditorActions {
     }
 
     public static class SaveAction extends AbstractAction {
-        /**
-         *
-         */
+
         protected boolean showDialog;
 
-        /**
-         *
-         */
         protected String lastDir = null;
 
-        /**
-         *
-         */
         public SaveAction(boolean showDialog) {
             this.showDialog = showDialog;
         }
 
-        /**
-         * Saves XML+PNG format.
-         */
         protected void saveXmlPng(BasicGraphEditor editor, String filename, Color bg) throws IOException {
             mxGraphComponent graphComponent = editor.getGraphComponent();
             mxGraph graph = graphComponent.getGraph();
 
-            // Creates the image for the PNG file
             BufferedImage image = mxCellRenderer.createBufferedImage(graph, null, 1, bg, graphComponent.isAntiAlias(), null, graphComponent.getCanvas());
 
-            // Creates the URL-encoded XML data
             mxCodec codec = new mxCodec();
             String xml = URLEncoder.encode(mxXmlUtils.getXml(codec.encode(graph.getModel())), StandardCharsets.UTF_8);
             mxPngEncodeParam param = mxPngEncodeParam.getDefaultEncodeParam(image);
             param.setCompressedText(new String[]{"mxGraphModel", xml});
 
-            // Saves as a PNG file
             try (FileOutputStream outputStream = new FileOutputStream(filename)) {
                 mxPngImageEncoder encoder = new mxPngImageEncoder(outputStream, param);
 
@@ -389,23 +359,19 @@ public class EditorActions {
 
                     JFileChooser fc = new JFileChooser(wd);
 
-                    // Adds the default file format
                     fc.addChoosableFileFilter(mxeFilter);
 
                     fc.addChoosableFileFilter(new DefaultFileFilter(".svg",  "arquivo "  + "SVG"+ " (.svg)"));
 
-                    // Adds a filter for each supported image format
                     Object[] imageFormats = ImageIO.getReaderFormatNames();
 
-                    // Finds all distinct extensions
-                    HashSet<String> formats = new HashSet<>();
+                    var formats = new HashSet<String>();
 
                     for (Object imageFormat : imageFormats) {
                         String ext = imageFormat.toString().toLowerCase();
                         formats.add(ext);
                     }
 
-                    // Adds filter that accepts all supported image formats
                     fc.addChoosableFileFilter(new DefaultFileFilter.ImageFileFilter("Todas as Imagens"));
                     fc.setFileFilter(mxeFilter);
                     int rc = fc.showDialog(null, "Salvar");
@@ -492,21 +458,13 @@ public class EditorActions {
     }
 
     public static class SelectShortestPathAction extends AbstractAction {
-        /**
-         *
-         */
+
         protected boolean directed;
 
-        /**
-         *
-         */
         public SelectShortestPathAction(boolean directed) {
             this.directed = directed;
         }
 
-        /**
-         *
-         */
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() instanceof mxGraphComponent graphComponent) {
                 mxGraph graph = graphComponent.getGraph();
@@ -543,21 +501,13 @@ public class EditorActions {
     }
 
     public static class SelectSpanningTreeAction extends AbstractAction {
-        /**
-         *
-         */
+
         protected boolean directed;
 
-        /**
-         *
-         */
         public SelectSpanningTreeAction(boolean directed) {
             this.directed = directed;
         }
 
-        /**
-         *
-         */
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() instanceof mxGraphComponent graphComponent) {
                 mxGraph graph = graphComponent.getGraph();
@@ -581,9 +531,7 @@ public class EditorActions {
     }
 
     public static class ToggleDirtyAction extends AbstractAction {
-        /**
-         *
-         */
+
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() instanceof mxGraphComponent graphComponent) {
                 graphComponent.showDirtyRectangle = !graphComponent.showDirtyRectangle;
@@ -646,35 +594,21 @@ public class EditorActions {
 
 
     public static class PromptPropertyAction extends AbstractAction {
-        /**
-         *
-         */
+
         protected Object target;
 
-        /**
-         *
-         */
         protected String fieldname, message;
 
-        /**
-         *
-         */
         public PromptPropertyAction(Object target, String message) {
             this(target, message, message);
         }
 
-        /**
-         *
-         */
         public PromptPropertyAction(Object target, String message, String fieldname) {
             this.target = target;
             this.message = message;
             this.fieldname = fieldname;
         }
 
-        /**
-         *
-         */
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() instanceof Component) {
                 try {
@@ -695,7 +629,6 @@ public class EditorActions {
                 }
             }
 
-            // Repaints the graph component
             if (e.getSource() instanceof mxGraphComponent graphComponent) {
                 graphComponent.repaint();
             }
@@ -715,20 +648,11 @@ public class EditorActions {
         public TogglePropertyItem(final Object target, String name, final String fieldname, final boolean refresh, ActionListener listener) {
             super(name);
 
-            // Since action listeners are processed last to first we add the given
-            // listener here which means it will be processed after the one below
             if (listener != null) {
                 addActionListener(listener);
             }
 
-            addActionListener(new ActionListener() {
-                /**
-                 *
-                 */
-                public void actionPerformed(ActionEvent e) {
-                    execute(target, fieldname, refresh);
-                }
-            });
+            addActionListener(e -> execute(target, fieldname, refresh));
 
             PropertyChangeListener propertyChangeListener = evt -> {
                 if (evt.getPropertyName().equalsIgnoreCase(fieldname)) {
@@ -755,9 +679,7 @@ public class EditorActions {
                     if (current instanceof Boolean) {
                         setSelected((Boolean) current);
                     }
-                } catch (Exception e) {
-                    // ignore
-                }
+                } catch (Exception ignored) {}
             }
         }
         
@@ -787,9 +709,7 @@ public class EditorActions {
                         assert graph != null;
                         graph.refresh();
                     }
-                } catch (Exception e) {
-                    // ignore
-                }
+                } catch (Exception ignored) {}
             }
         }
 
@@ -798,29 +718,19 @@ public class EditorActions {
                 try {
                     Method setter = target.getClass().getMethod("set" + fieldname, boolean.class);
                     setter.invoke(target, false);
-                } catch (Exception e) {
-                    // ignore
-                }
+                } catch (Exception ignored) {}
             }
         }
     }
 
     public static class HistoryAction extends AbstractAction {
-        /**
-         *
-         */
+
         protected boolean undo;
 
-        /**
-         *
-         */
         public HistoryAction(boolean undo) {
             this.undo = undo;
         }
 
-        /**
-         *
-         */
         public void actionPerformed(ActionEvent e) {
             BasicGraphEditor editor = getEditor(e);
 
@@ -835,21 +745,13 @@ public class EditorActions {
     }
 
     public static class FontStyleAction extends AbstractAction {
-        /**
-         *
-         */
+
         protected boolean bold;
 
-        /**
-         *
-         */
         public FontStyleAction(boolean bold) {
             this.bold = bold;
         }
 
-        /**
-         *
-         */
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() instanceof mxGraphComponent graphComponent) {
                 Component editorComponent = null;
@@ -893,9 +795,7 @@ public class EditorActions {
     }
 
     public static class WarningAction extends AbstractAction {
-        /**
-         *
-         */
+
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() instanceof mxGraphComponent graphComponent) {
                 Object[] cells = graphComponent.getGraph().getSelectionCells();
@@ -914,9 +814,7 @@ public class EditorActions {
     }
 
     public static class NewAction extends AbstractAction {
-        /**
-         *
-         */
+
         public void actionPerformed(ActionEvent e) {
             BasicGraphEditor editor = getEditor(e);
 
@@ -924,7 +822,6 @@ public class EditorActions {
                 if (editor.isModified() || JOptionPane.showConfirmDialog(editor, "Perder Mudanças?") == JOptionPane.YES_OPTION) {
                     mxGraph graph = editor.getGraphComponent().getGraph();
 
-                    // Check modified flag and display save dialog
                     mxCell root = new mxCell();
                     root.insert(new mxCell());
                     graph.getModel().setRoot(root);
@@ -938,24 +835,11 @@ public class EditorActions {
     }
 
     public static class ImportAction extends AbstractAction {
-        /**
-         *
-         */
+
         protected String lastDir;
 
-        /**
-         * Loads and registers the shape as a new shape in mxGraphics2DCanvas and
-         * adds a new entry to use that shape in the specified palette
-         *
-         * @param palette The palette to add the shape to.
-         * @param nodeXml The raw XML of the shape
-         * @param path    The path to the directory the shape exists in
-         * @return the string name of the shape
-         */
         public static String addStencilShape(EditorPalette palette, String nodeXml, String path) {
 
-            // Some editors place a 3 byte BOM at the start of files
-            // Ensure the first char is a "<"
             int lessthanIndex = nodeXml.indexOf("<");
             nodeXml = nodeXml.substring(lessthanIndex);
             mxStencilShape newShape = new mxStencilShape(nodeXml);
@@ -967,7 +851,6 @@ public class EditorActions {
                 icon = new ImageIcon(iconPath);
             }
 
-            // Registers the shape in the canvas shape registry
             mxGraphics2DCanvas.putShape(name, newShape);
 
             if (palette != null && icon != null) {
@@ -977,9 +860,6 @@ public class EditorActions {
             return name;
         }
 
-        /**
-         *
-         */
         public void actionPerformed(ActionEvent e) {
             BasicGraphEditor editor = getEditor(e);
 
@@ -990,7 +870,6 @@ public class EditorActions {
 
                 fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 
-                // Adds file filter for Dia shape import
                 fc.addChoosableFileFilter(new DefaultFileFilter(".shape", "Dia Shape " + "Arquivo" + " (.shape)"));
 
                 int rc = fc.showDialog(null, "Importar Istencil");
@@ -1026,23 +905,15 @@ public class EditorActions {
 
 
     public static class OpenAction extends AbstractAction {
-        /**
-         *
-         */
+
         protected String lastDir;
 
-        /**
-         *
-         */
         protected void resetEditor(BasicGraphEditor editor) {
             editor.setModified(false);
             editor.getUndoManager().clear();
             editor.getGraphComponent().zoomAndCenter();
         }
 
-        /**
-         * Reads XML+PNG format.
-         */
         protected void openXmlPng(BasicGraphEditor editor, File file) throws IOException {
             Map<String, String> text = mxPngTextDecoder.decodeCompressedText(new FileInputStream(file));
 
@@ -1066,7 +937,6 @@ public class EditorActions {
         protected void openGD(BasicGraphEditor editor, File file, String gdText) {
             mxGraph graph = editor.getGraphComponent().getGraph();
 
-            // Replaces file extension with .mxe
             String filename = file.getName();
             filename = filename.substring(0, filename.length() - 4) + ".mxe";
 
@@ -1080,9 +950,6 @@ public class EditorActions {
             editor.setCurrentFile(new File(lastDir + "/" + filename));
         }
 
-        /**
-         *
-         */
         public void actionPerformed(ActionEvent e) {
             BasicGraphEditor editor = getEditor(e);
 
@@ -1095,7 +962,6 @@ public class EditorActions {
 
                         JFileChooser fc = new JFileChooser(wd);
 
-                        // Adds file filter for supported file format
                         DefaultFileFilter defaultFilter = new DefaultFileFilter(".mxe", "Todos os formatos suportados" + " (.mxe, .png, .vdx)") {
 
                             public boolean accept(File file) {
@@ -1109,10 +975,8 @@ public class EditorActions {
                         fc.addChoosableFileFilter(new DefaultFileFilter(".mxe", "mxGraph Editor " + "Arquivo" + " (.mxe)"));
                         fc.addChoosableFileFilter(new DefaultFileFilter(".png", "PNG+XML  " + "Arquivo" + " (.png)"));
 
-                        // Adds file filter for VDX import
                         fc.addChoosableFileFilter(new DefaultFileFilter(".vdx", "XML Drawing  " + "Arquivo" + " (.vdx)"));
 
-                        // Adds file filter for GD import
                         fc.addChoosableFileFilter(new DefaultFileFilter(".txt", "Graph Drawing  " + "Arquivo" + " (.txt)"));
 
                         fc.setFileFilter(defaultFilter);
@@ -1148,14 +1012,9 @@ public class EditorActions {
     }
 
     public static class ToggleAction extends AbstractAction {
-        /**
-         *
-         */
+
         protected String key;
 
-        /**
-         *
-         */
         protected boolean defaultValue;
 
         public ToggleAction(String key) {
@@ -1167,9 +1026,6 @@ public class EditorActions {
             this.defaultValue = defaultValue;
         }
 
-        /**
-         *
-         */
         public void actionPerformed(ActionEvent e) {
             mxGraph graph = mxGraphActions.getGraph(e);
 
@@ -1180,9 +1036,7 @@ public class EditorActions {
     }
 
     public static class SetLabelPositionAction extends AbstractAction {
-        /**
-         *
-         */
+
         protected String labelPosition, alignment;
 
         public SetLabelPositionAction(String labelPosition, String alignment) {
@@ -1190,16 +1044,12 @@ public class EditorActions {
             this.alignment = alignment;
         }
 
-        /**
-         *
-         */
         public void actionPerformed(ActionEvent e) {
             mxGraph graph = mxGraphActions.getGraph(e);
 
             if (graph != null && !graph.isSelectionEmpty()) {
                 graph.getModel().beginUpdate();
                 try {
-                    // Checks the orientation of the alignment to use the correct constants
                     if (labelPosition.equals(mxConstants.ALIGN_LEFT) || labelPosition.equals(mxConstants.ALIGN_CENTER) || labelPosition.equals(mxConstants.ALIGN_RIGHT)) {
                         graph.setCellStyles(mxConstants.STYLE_LABEL_POSITION, labelPosition);
                         graph.setCellStyles(mxConstants.STYLE_ALIGN, alignment);
@@ -1215,18 +1065,13 @@ public class EditorActions {
     }
 
     public static class SetStyleAction extends AbstractAction {
-        /**
-         *
-         */
+
         protected String value;
 
         public SetStyleAction(String value) {
             this.value = value;
         }
 
-        /**
-         *
-         */
         public void actionPerformed(ActionEvent e) {
             mxGraph graph = mxGraphActions.getGraph(e);
 
@@ -1237,9 +1082,7 @@ public class EditorActions {
     }
 
     public static class KeyValueAction extends AbstractAction {
-        /**
-         *
-         */
+
         protected String key, value;
 
         @SuppressWarnings("unused")
@@ -1252,9 +1095,6 @@ public class EditorActions {
             this.value = value;
         }
 
-        /**
-         *
-         */
         public void actionPerformed(ActionEvent e) {
             mxGraph graph = mxGraphActions.getGraph(e);
 
@@ -1265,9 +1105,7 @@ public class EditorActions {
     }
 
     public static class PromptValueAction extends AbstractAction {
-        /**
-         *
-         */
+
         protected String key, message;
 
         public PromptValueAction(String key, String message) {
@@ -1275,9 +1113,6 @@ public class EditorActions {
             this.message = message;
         }
 
-        /**
-         *
-         */
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() instanceof Component) {
                 mxGraph graph = mxGraphActions.getGraph(e);
@@ -1298,18 +1133,13 @@ public class EditorActions {
     }
 
     public static class AlignCellsAction extends AbstractAction {
-        /**
-         *
-         */
+
         protected String align;
 
         public AlignCellsAction(String align) {
             this.align = align;
         }
 
-        /**
-         *
-         */
         public void actionPerformed(ActionEvent e) {
             mxGraph graph = mxGraphActions.getGraph(e);
 
@@ -1320,9 +1150,7 @@ public class EditorActions {
     }
 
     public static class AutosizeAction extends AbstractAction {
-        /**
-         *
-         */
+
         public void actionPerformed(ActionEvent e) {
             mxGraph graph = mxGraphActions.getGraph(e);
 
@@ -1343,9 +1171,7 @@ public class EditorActions {
     }
 
     public static class ColorAction extends AbstractAction {
-        /**
-         *
-         */
+
         protected String name, key;
 
         public ColorAction(String name, String key) {
@@ -1353,9 +1179,6 @@ public class EditorActions {
             this.key = key;
         }
 
-        /**
-         *
-         */
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() instanceof mxGraphComponent graphComponent) {
                 mxGraph graph = graphComponent.getGraph();
@@ -1372,9 +1195,7 @@ public class EditorActions {
     }
 
     public static class BackgroundImageAction extends AbstractAction {
-        /**
-         *
-         */
+
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() instanceof mxGraphComponent graphComponent) {
                 String value = (String) JOptionPane.showInputDialog(graphComponent, "Imagem de fundo", "URL", JOptionPane.PLAIN_MESSAGE, null, null, "https://www.callatecs.com/images/background2.JPG");
@@ -1407,7 +1228,6 @@ public class EditorActions {
                     graphComponent.getViewport().setBackground(newColor);
                 }
 
-                // Forces a repaint of the outline
                 graphComponent.getGraph().repaint();
             }
         }
@@ -1423,7 +1243,6 @@ public class EditorActions {
                     graphComponent.setPageBackgroundColor(newColor);
                 }
 
-                // Forces a repaint of the component
                 graphComponent.repaint();
             }
         }

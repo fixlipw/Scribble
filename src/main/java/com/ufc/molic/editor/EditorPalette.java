@@ -22,25 +22,13 @@ import java.io.Serial;
 
 public class EditorPalette extends JPanel {
 
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 7771113885935187066L;
 
-    /**
-     *
-     */
     protected JLabel selectedEntry = null;
 
-    /**
-     *
-     */
     protected mxEventSource eventSource = new mxEventSource(this);
 
-    /**
-     *
-     */
     protected Color gradientColor = null;
 
     public EditorPalette() {
@@ -66,7 +54,6 @@ public class EditorPalette extends JPanel {
 
         });
 
-        // Shows a nice icon for drag and drop but doesn't import anything
         setTransferHandler(new TransferHandler() {
             public boolean canImport(JComponent comp, DataFlavor[] flavors) {
                 return true;
@@ -91,16 +78,10 @@ public class EditorPalette extends JPanel {
         }
     }
 
-    /**
-     *
-     */
     public void clearSelection() {
         setSelectionEntry(null, null);
     }
 
-    /**
-     *
-     */
     public void setSelectionEntry(JLabel entry, mxGraphTransferable t) {
         JLabel previous = selectedEntry;
         selectedEntry = entry;
@@ -118,9 +99,6 @@ public class EditorPalette extends JPanel {
         eventSource.fireEvent(new mxEventObject(mxEvent.SELECT, "entry", selectedEntry, "transferable", t, "previous", previous));
     }
 
-    /**
-     *
-     */
     public void setPreferredWidth(int width) {
         int cols = Math.max(1, width / 55);
         setPreferredSize(new Dimension(width, (getComponentCount() * 55 / cols) + 30));
@@ -167,10 +145,6 @@ public class EditorPalette extends JPanel {
 
         entry.addMouseListener(new MouseListener() {
 
-            /*
-             * (non-Javadoc)
-             * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
-             */
             public void mousePressed(MouseEvent e) {
                 setSelectionEntry(entry, t);
             }
@@ -189,7 +163,6 @@ public class EditorPalette extends JPanel {
 
         });
 
-        // Install the handler for dragging nodes into a graph
         DragGestureListener dragGestureListener = e -> e.startDrag(null, mxSwingConstants.EMPTY_IMAGE, new Point(), t, null);
 
         DragSource dragSource = new DragSource();
@@ -202,10 +175,6 @@ public class EditorPalette extends JPanel {
         eventSource.addListener(eventName, listener);
     }
 
-    /**
-     * @return whether or not event are enabled for this palette
-     * @see com.mxgraph.util.mxEventSource#isEventsEnabled()
-     */
     public boolean isEventsEnabled() {
         return eventSource.isEventsEnabled();
     }
