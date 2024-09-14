@@ -36,7 +36,7 @@ public class BasicGraphEditor extends JPanel {
 
     protected JTabbedPane goalsPane;
 
-    protected JPanel notesPane;
+    protected NotesPanel notesPane;
 
     protected GoalsTabbedPanel goalsPanel;
 

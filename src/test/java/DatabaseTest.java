@@ -13,7 +13,7 @@ public class DatabaseTest {
         Connection con = null;
 
         try {
-            String url = "jdbc:sqlite::resource:Scribble.db";
+            String url = "jdbc:sqlite:resource:Scribble.sqlite";
             con = DriverManager.getConnection(url, "sa", "sa");
 
             assertNotNull(con);

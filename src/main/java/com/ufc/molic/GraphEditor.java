@@ -51,6 +51,9 @@ public class GraphEditor extends BasicGraphEditor implements Serializable {
             }
         });
 
+        notesPane.setName("Anotações");
+        notesPane.loadNotes();
+
         goalsTabbedPanel.addListener(mxEvent.SELECT, (sender, evt) -> {
             Object tmp = evt.getProperty("transferable");
 

@@ -4,18 +4,20 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
         http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
-    <persistence-unit name="dev-sqlite" transaction-type="RESOURCE_LOCAL">
+    <persistence-unit name="scribble" transaction-type="RESOURCE_LOCAL">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <class>com.ufc.molic.entity.Anotacao</class>
         <properties>
-            <property name="javax.persistence.jdbc.url" value="jdbc:sqlite:resource:Scribble"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:sqlite:${basedir}/src/main/resources/Scribble.sqlite"/>
             <property name="jakarta.persistence.jdbc.driver" value="org.sqlite.JDBC" />
             <property name="jakarta.persistence.jdbc.user" value="sa" />
             <property name="jakarta.persistence.jdbc.password" value="sa" />
 
-            <property name="hibernate.dialect" value="org.hibernate.community.dialect.SQLiteDialect" />
-            <property name="hibernate.hbm2ddl.auto" value="update" />
-            <property name="hibernate.show_sql" value="true" />
-            <property name="hibernate.format_sql" value="true" />
-            <property name="hibernate.jdbc.use_get_generated_keys" value="false" />
+            <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
+            <property name="jakarta.persistence.schema-generation.scripts.create-target" value="schema.sql"/>
+
+            <property name="eclipselink.logging.level" value="FINE"/>
+            <property name="eclipselink.logging.parameters" value="true"/>
         </properties>
     </persistence-unit>
 </persistence>

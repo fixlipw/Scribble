@@ -1,5 +1,8 @@
 package com.ufc.molic.editor;
 
+import com.ufc.molic.dao.AnotacaoDAO;
+import com.ufc.molic.entity.Anotacao;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -7,11 +10,14 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class NotesPanel extends JPanel {
 
     private final JTable notesTable;
     private final DefaultTableModel notesModel;
+
+    AnotacaoDAO anotacaoDAO = new AnotacaoDAO();
 
     public NotesPanel() {
         setLayout(new BorderLayout());
@@ -19,7 +25,7 @@ public class NotesPanel extends JPanel {
         notesModel = new DefaultTableModel(new Object[]{"ID", "Anotação"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column == 1;
+                return false;
             }
         };
 
@@ -88,7 +94,10 @@ public class NotesPanel extends JPanel {
         if (annotation != null && !annotation.trim().isEmpty()) {
             int nextId = getNextId();
             notesModel.addRow(new Object[]{nextId, annotation.trim()});
-            JOptionPane.showMessageDialog(null, "Nova anotação adicionada com sucesso!\n" + annotation, "Anotação salva!", JOptionPane.INFORMATION_MESSAGE);
+
+            anotacaoDAO.save(new Anotacao(annotation));
+
+            JOptionPane.showMessageDialog(null, "Nova anotação adicionada com sucesso!\n" + "<html>"+ annotation + "<html/>", "Anotação salva!", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -99,6 +108,13 @@ public class NotesPanel extends JPanel {
             String newAnnotation = JOptionPane.showInputDialog(null, "Edite a anotação:", currentAnnotation);
             if (newAnnotation != null && !newAnnotation.trim().isEmpty()) {
                 notesModel.setValueAt(newAnnotation.trim(), selectedRow, 1);
+
+                Anotacao anotacao = anotacaoDAO.find(currentAnnotation.trim());
+                if (anotacao != null) {
+                    anotacao.setNote(newAnnotation.trim());
+                    anotacaoDAO.update(anotacao);
+                }
+
             }
         } else {
             JOptionPane.showMessageDialog(null, "Selecione uma anotação para editar.", "Nenhuma seleção", JOptionPane.WARNING_MESSAGE);
@@ -110,7 +126,12 @@ public class NotesPanel extends JPanel {
         if (selectedRow != -1) {
             int confirm = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir a anotação selecionada?", "Confirmar Exclusão", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
+                Anotacao anotacao = anotacaoDAO.find(notesModel.getValueAt(selectedRow, 1).toString());
+                anotacaoDAO.delete(anotacao.getId());
+
                 notesModel.removeRow(selectedRow);
+
+
                 renumberIds();
             }
         } else {
@@ -137,12 +158,16 @@ public class NotesPanel extends JPanel {
         return notes;
     }
 
-    public void setNotes(List<String> notes) {
+    public void loadNotes() {
+
+        List<Anotacao> anotacoes = anotacaoDAO.find();
+
         notesModel.setRowCount(0);
-        int id = 1;
-        for (String note : notes) {
-            notesModel.addRow(new Object[]{id++, note});
-        }
+        AtomicInteger id = new AtomicInteger(1);
+
+        anotacoes.forEach(note -> {
+            notesModel.addRow(new Object[]{id.getAndIncrement(), note.getNote()});
+        });
     }
 }
 
