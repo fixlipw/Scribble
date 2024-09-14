@@ -8,13 +8,15 @@
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         <class>com.ufc.molic.entity.Anotacao</class>
         <properties>
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:sqlite:${basedir}/src/main/resources/Scribble.sqlite"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:sqlite:scribble_db.sqlite"/>
             <property name="jakarta.persistence.jdbc.driver" value="org.sqlite.JDBC" />
             <property name="jakarta.persistence.jdbc.user" value="sa" />
             <property name="jakarta.persistence.jdbc.password" value="sa" />
 
             <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
             <property name="jakarta.persistence.schema-generation.scripts.create-target" value="schema.sql"/>
+            
+            <property name="eclipselink.logging.level" value="FINE"/>
         </properties>
     </persistence-unit>
 </persistence>
