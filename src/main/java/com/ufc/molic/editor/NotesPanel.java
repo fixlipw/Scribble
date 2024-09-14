@@ -88,6 +88,7 @@ public class NotesPanel extends JPanel {
         if (annotation != null && !annotation.trim().isEmpty()) {
             int nextId = getNextId();
             notesModel.addRow(new Object[]{nextId, annotation.trim()});
+            JOptionPane.showMessageDialog(null, "Nova anotação adicionada com sucesso!\n" + annotation, "Anotação salva!", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -100,7 +101,7 @@ public class NotesPanel extends JPanel {
                 notesModel.setValueAt(newAnnotation.trim(), selectedRow, 1);
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Selecione uma anotação para editar.", "Nenhuma seleção", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Selecione uma anotação para editar.", "Nenhuma seleção", JOptionPane.WARNING_MESSAGE);
         }
     }
 
@@ -113,7 +114,7 @@ public class NotesPanel extends JPanel {
                 renumberIds();
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Selecione uma anotação para excluir.", "Nenhuma seleção", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Selecione uma anotação para excluir.", "Nenhuma seleção", JOptionPane.WARNING_MESSAGE);
         }
     }
 
