@@ -152,12 +152,12 @@ public class EditorMenuBar extends JMenuBar {
 
         submenu = (JMenu) menu.add(new JMenu("Fundo"));
 
-        submenu.add(editor.bind("Cor de Fundo", new BackgroundAction()));
+        submenu.add(editor.bind("Fundo do Diagrama", new BackgroundAction()));
         submenu.add(editor.bind("Imagem de Fundo", new BackgroundImageAction()));
 
         submenu.addSeparator();
 
-        submenu.add(editor.bind("Fundo da Página", new PageBackgroundAction()));
+        submenu.add(editor.bind("Fundo de Janela", new PageBackgroundAction()));
 
         submenu = (JMenu) menu.add(new JMenu("Grade"));
 
