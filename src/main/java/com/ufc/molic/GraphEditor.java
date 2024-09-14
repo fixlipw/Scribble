@@ -16,6 +16,7 @@ import com.ufc.molic.editor.BasicGraphEditor;
 import com.ufc.molic.editor.EditorMenuBar;
 import com.ufc.molic.editor.EditorPalette;
 import com.ufc.molic.editor.GoalsTabbedPanel;
+import lombok.Setter;
 import org.w3c.dom.Document;
 
 import javax.swing.*;
@@ -224,16 +225,13 @@ public class GraphEditor extends BasicGraphEditor implements Serializable {
 
     }
 
+    @Setter
     public static class CustomGraph extends mxGraph {
 
         protected Object edgeTemplate;
 
         public CustomGraph() {
             setAlternateEdgeStyle("edgeStyle=mxEdgeStyle.ElbowConnector;elbow=vertical");
-        }
-
-        public void setEdgeTemplate(Object template) {
-            edgeTemplate = template;
         }
 
         public Object createEdge(Object parent, String id, Object value, Object source, Object target, String style) {
