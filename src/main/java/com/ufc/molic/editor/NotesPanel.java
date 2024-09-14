@@ -1,6 +1,6 @@
 package com.ufc.molic.editor;
 
-import com.ufc.molic.dao.AnotacaoDAO;
+import com.ufc.molic.dao.AnotacaoDAOImpl;
 import com.ufc.molic.entity.Anotacao;
 
 import javax.swing.*;
@@ -17,7 +17,7 @@ public class NotesPanel extends JPanel {
     private final JTable notesTable;
     private final DefaultTableModel notesModel;
 
-    AnotacaoDAO anotacaoDAO = new AnotacaoDAO();
+    AnotacaoDAOImpl anotacaoDAO = new AnotacaoDAOImpl();
 
     public NotesPanel() {
         setLayout(new BorderLayout());
