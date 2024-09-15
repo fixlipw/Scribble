@@ -4,12 +4,13 @@
 |:--:|:--|
 
 
-
+---
 # Clientes 👥
 
 Nossa principal cliente é a professora Ingrid Monteiro, do campus de Quixadá da UFC. Além dela, as partes que se beneficiarão do sistema incluem alunos da disciplina de Interação Humano-Computador (IHC), pesquisadores e designers de interação.
 Durante a fase de elicitação de requisitos, foram conduzidas entrevistas semiestruturadas com nossa principal cliente. Durante o processo de desenvolvimento, foram realizadas reuniões com o intuito de receber feedbacks e sugestões de melhoria.
 
+---
 # Requisitos e Histórias de Usuário 📄
 
 Este documento tem como objetivo definir e detalhar os requisitos funcionais e não funcionais do sistema Scribble. Ele serve como uma referência centralizada para descrever as funcionalidades, restrições e comportamentos esperados, garantindo que o sistema atenda às necessidades dos usuários e cumpra as especificações técnicas.  
@@ -20,11 +21,15 @@ As histórias de usuários descritas neste documento têm como objetivo capturar
 
 Link: [Histórias de Usuário](HistoriasDeUsuario.md)
 
+---
+
 # Modelagem 📐
 
 A modelagem de classes define a estrutura estática, detalhando entidades como diagramas e elementos gráficos, suas propriedades e interações. Já a modelagem de atividades representa o fluxo dinâmico do sistema, descrevendo as etapas e processos envolvidos na criação, edição e salvamento de diagramas Molic. Juntas, essas modelagens oferecem uma visão completa dos processos do Scribble, garantindo um planejamento e implementação eficazes.
 
 Link: [Modelagem](Modelagem.md)
+
+---
 
 # Arquitetura ⚙
 ![Arquitetura](./Documentação/assets/arquitetura.jfif)
