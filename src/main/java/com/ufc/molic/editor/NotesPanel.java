@@ -8,7 +8,6 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -35,7 +34,10 @@ public class NotesPanel extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2 && notesTable.getSelectedRow() != -1) {
-                    showNoteDialog();
+
+                    String annotation = (String) notesModel.getValueAt(notesTable.getSelectedRow(), 1);
+
+                    showNoteDialog("Anotação", annotation);
                 }
             }
         });
@@ -60,12 +62,11 @@ public class NotesPanel extends JPanel {
         deleteButton.addActionListener(e -> deleteNote());
     }
 
-    private void showNoteDialog() {
+    private void showNoteDialog(String title, String annotation) {
         int selectedRow = notesTable.getSelectedRow();
         if (selectedRow != -1) {
-            String annotation = (String) notesModel.getValueAt(selectedRow, 1);
 
-            JDialog noteDialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Anotação", true);
+            JDialog noteDialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), title, true);
             noteDialog.setLayout(new BorderLayout());
             noteDialog.setSize(300, 200);
             noteDialog.setLocationRelativeTo(this);
@@ -97,7 +98,7 @@ public class NotesPanel extends JPanel {
 
             anotacaoDAO.save(new Anotacao(annotation));
 
-            JOptionPane.showMessageDialog(null, "Nova anotação adicionada com sucesso!\n" + "<html>"+ annotation + "<html/>", "Anotação salva!", JOptionPane.INFORMATION_MESSAGE);
+            showNoteDialog("Anotação Salva!", annotation);
         }
     }
 
@@ -148,14 +149,6 @@ public class NotesPanel extends JPanel {
         for (int i = 0; i < notesModel.getRowCount(); i++) {
             notesModel.setValueAt(i + 1, i, 0);
         }
-    }
-
-    public List<String> getNotes() {
-        List<String> notes = new ArrayList<>();
-        for (int i = 0; i < notesModel.getRowCount(); i++) {
-            notes.add((String) notesModel.getValueAt(i, 1));
-        }
-        return notes;
     }
 
     public void loadNotes() {

@@ -21,10 +21,6 @@ public class Anotacao {
     public Anotacao() {
     }
 
-    public Anotacao(int id) {
-        this.id = id;
-    }
-
     public Anotacao(String note) {
         this.note = note;
     }
