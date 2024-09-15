@@ -34,6 +34,7 @@ Link: [Modelagem](Modelagem.md)
 # Arquitetura ⚙
 ![Arquitetura](./Documentação/assets/arquitetura.jfif)
 
+---
 
 # Testes 🔎
 No projeto Scribble, os testes unitários validaram o funcionamento de componentes isolados, enquanto os testes sistêmicos manuais avaliaram o comportamento do sistema como um todo, garantindo que os fluxos de criação, edição e salvamento de diagramas funcionassem corretamente.
