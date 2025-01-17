@@ -85,7 +85,7 @@ public class GraphEditor extends BasicGraphEditor implements Serializable {
 
             mxCell tituloCena = new mxCell("Cena", cenaGeometry, "swimlane;html=1;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeLast=1;collapsible=1;marginBottom=0;swimlaneFillColor=#ffffff;rounded=1;glass=0;");
 
-            mxCell itensAcoes = new mxCell("Item", new mxGeometry(0, 26.0, 160.0, 64.0), "text;html=1;strokeColor=none;fillColor=none;movable=0;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;whiteSpace=wrap;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;deletable=0;cloneable=0;autosize=1");
+            mxCell itensAcoes = new mxCell("Item", new mxGeometry(0, 26.0, 160.0, 64.0), "text;html=1;strokeColor=none;fillColor=none;movable=0;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;whiteSpace=nowrap;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;deletable=0;cloneable=0");
 
             tituloCena.setVertex(true);
             itensAcoes.setVertex(true);

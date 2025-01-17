@@ -110,40 +110,40 @@ public class BasicGraphEditor extends JPanel {
         outerPallete.setDividerSize(6);
         outerPallete.setBorder(null);
 
-        Rectangle appBounds = SwingUtilities.getRoot(this).getBounds();
-
-        JSplitPane innerMain = new JSplitPane(JSplitPane.VERTICAL_SPLIT, goalsPane, notesPane);
-        innerPallete.setDividerLocation(appBounds.height / 2);
-        innerPallete.setResizeWeight(1);
-        innerPallete.setDividerSize(6);
-        innerPallete.setBorder(null);
-
-        JSplitPane outterMain = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, outerPallete, innerMain);
-        outterMain.setOneTouchExpandable(true);
-        outterMain.setDividerLocation(appBounds.width - 270);
-        outterMain.setDividerSize(6);
-        outterMain.setBorder(null);
-
-        innerMain.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                innerMain.setDividerLocation(appBounds.height / 2);
-            }
-        });
-
-        outterMain.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                outterMain.setDividerLocation(outterMain.getWidth() - 270);
-            }
-        });
+//        Rectangle appBounds = SwingUtilities.getRoot(this).getBounds();
+//
+//        JSplitPane innerMain = new JSplitPane(JSplitPane.VERTICAL_SPLIT, goalsPane, notesPane);
+//        innerPallete.setDividerLocation(appBounds.height / 2);
+//        innerPallete.setResizeWeight(1);
+//        innerPallete.setDividerSize(6);
+//        innerPallete.setBorder(null);
+//
+//        JSplitPane outterMain = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, outerPallete, innerMain);
+//        outterMain.setOneTouchExpandable(true);
+//        outterMain.setDividerLocation(appBounds.width - 270);
+//        outterMain.setDividerSize(6);
+//        outterMain.setBorder(null);
+//
+//        innerMain.addComponentListener(new ComponentAdapter() {
+//            @Override
+//            public void componentResized(ComponentEvent e) {
+//                innerMain.setDividerLocation(appBounds.height / 2);
+//            }
+//        });
+//
+//        outterMain.addComponentListener(new ComponentAdapter() {
+//            @Override
+//            public void componentResized(ComponentEvent e) {
+//                outterMain.setDividerLocation(outterMain.getWidth() - 270);
+//            }
+//        });
 
         statusBar = createStatusBar();
 
         installRepaintListener();
 
         setLayout(new BorderLayout());
-        add(outterMain, BorderLayout.CENTER);
+        add(outerPallete, BorderLayout.CENTER);
         add(statusBar, BorderLayout.SOUTH);
         installToolBar();
 
